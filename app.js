@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const path = require('path');
 
 const app = express();
 
@@ -44,6 +45,9 @@ app.use(passport.session());
 
 // Connect flash
 app.use(flash());
+
+//static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Global variables
 app.use(function(req, res, next) {

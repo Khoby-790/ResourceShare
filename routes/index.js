@@ -16,4 +16,8 @@ router.get('/edit_profile',ensureAuthenticated, (req, res) => {
 	res.send('Helo World');
 })
 
+router.get('/index', (req,res)=>{
+  res.render('index');
+});
+
 module.exports = router;
