@@ -5,7 +5,7 @@ const passport = require('passport');
 // Load User model
 const User = require('../models/User');
 const crypto = require('crypto')
-// const mail = require('../config/mail')
+const mail = require('../config/mail')
 
 
 exports.registerAction = (req, res, next) =>{
@@ -82,7 +82,7 @@ exports.redirectLogin = (req, res) => {
 	res.redirect(path || '/dashboard');
 
 };
-
+	
 exports.logout = (req, res) => {
 	req.logout();
 	req.flash('success_msg', 'You are logged out');
@@ -105,8 +105,13 @@ exports.forgot = async (req, res) => {
 	await user.save();
 	let resetURL = `http://${req.headers.host}/users/reset_account/${user.resetPasswordToken}`;
 	//send mail
-
-	req.flash('success_msg',`A password reset link has been mailed to ${req.body.email}, ${resetURL}`);
+	mail.send({
+		user,
+		subject:'Password Reset',
+		filename:'reset_mail',
+		resetURL
+	});
+	req.flash('success_msg',`A password reset link has been mailed to ${req.body.email}`);
 	res.redirect('/users/login');
 };
 
