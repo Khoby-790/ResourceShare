@@ -12,4 +12,8 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
   })
 );
 
+router.get('/edit_profile',ensureAuthenticated, (req, res) => {
+	res.send('Helo World');
+})
+
 module.exports = router;
