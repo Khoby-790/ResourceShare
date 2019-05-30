@@ -5,7 +5,7 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
 const path = require('path');
-
+const expressValidator = require('express-validator');
 const app = express();
 
 // Passport Config
@@ -30,6 +30,10 @@ app.set('views', path.join(__dirname, 'views'));
  
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
+
+//validates all request
+app.use(expressValidator());
+
 
 // Express session
 app.use(
