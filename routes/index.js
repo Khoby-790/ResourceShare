@@ -7,9 +7,7 @@ router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) =>
-  res.render('dashboard', {
-    user: req.user
-  })
+  res.render('dashboard')
 );
 
 router.get('/index', (req,res)=>{
