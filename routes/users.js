@@ -20,10 +20,6 @@ router.post('/register', AuthController.registerAction);
 router.post('/login', AuthController.loginAction, AuthController.redirectLogin);
 
 // Logout
-router.get('/logout', (req, res) => {
-  req.logout();
-  req.flash('success_msg', 'You are logged out');
-  res.redirect('/users/login');
-});
+router.get('/logout', AuthController.logout);
 
 module.exports = router;
