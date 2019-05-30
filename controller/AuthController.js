@@ -4,7 +4,9 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 // Load User model
 const User = require('../models/User');
-const { forwardAuthenticated } = require('../config/auth');
+const crypto = require('crypto')
+const mail = require('../config/mail')
+
 
 exports.registerAction = (req, res, next) =>{
 	const { name, email, password, password2 } = req.body;
@@ -80,9 +82,98 @@ exports.redirectLogin = (req, res) => {
 	res.redirect(path || '/dashboard');
 
 };
-
+	
 exports.logout = (req, res) => {
 	req.logout();
 	req.flash('success_msg', 'You are logged out');
 	res.redirect('/users/login');
+};
+
+exports.resetPage = (req,res) => {
+	res.render('reset_account');
+};
+
+exports.forgot = async (req, res) => {
+	let user = await User.findOne({email:req.body.email});
+	if(!user){
+		req.flash('success_msg','A password reset has been sent successfully');
+		return res.redirect('/users/login');
+	}
+	//set token
+	user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+	user.resetPasswordExpires = Date.now() + 3600000;
+	await user.save();
+	let resetURL = `http://${req.headers.host}/users/reset_account/${user.resetPasswordToken}`;
+	//send mail
+	mail.send({
+		user,
+		subject:'Password Reset',
+		filename:'reset_mail',
+		resetURL
+	});
+	req.flash('success_msg',`A password reset link has been mailed to ${req.body.email}`);
+	res.redirect('/users/login');
+};
+
+exports.resetAccount = async (req, res) => {
+	let user = await User.findOne({
+		resetPasswordToken:req.params.token,
+		resetPasswordExpires: { $gt: Date.now()}
+	});
+	if(!user){
+		req.flash('error_msg','Password reset token is invalid or has expired');
+		res.redirect('/users/login');
+	}
+
+	res.render('reset_password');
+};
+
+exports.confirmPasswords = (req, res, next) => {
+	req.checkBody('password','Password field is empty').notEmpty();
+	req.checkBody('password1','Confirm Password field is empty').notEmpty();
+	req.checkBody('password1','Oops your passwords do not match').equals(req.body.password);
+
+	let errors = req.validationErrors();
+	if(errors){
+		req.flash('error_msg',errors.map(err => err.msg));
+		res.redirect('back');
+		return;
+	}
+
+	next();
+};
+
+
+exports.resetAccountAction = (req, res) => {
+	User.findOne({
+		resetPasswordToken:req.params.token,
+		resetPasswordExpires:{$gt:Date.now()}
+	})
+	.then(user => {
+		user.resetPasswordToken = undefined;
+		user.resetPasswordExpires = undefined;
+		user.password = req.body.password
+	  	bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(user.password, salt, (err, hash) => {
+            if (err) throw err;
+            user.password = hash;
+            user
+              .save()
+              .then(user => {
+                req.flash(
+                  'success_msg',
+                  'Your password has been reset successfully'
+                );
+                return res.redirect('/users/login');
+              })
+              .catch(err => console.log(err));
+          });
+        });
+
+	})
+	.catch(err => {
+		req.flash('error_msg','Password token is invalid or has expired');
+		req.redirect('users/login');
+	});
+
 };

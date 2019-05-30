@@ -18,7 +18,10 @@
     "express-ejs-extend": "^0.0.1",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.15.6",
+    "express-validator": "^5.3.1",
+    "html-to-text": "^5.1.1",
     "mongoose": "^5.4.1",
+    "nodemailer": "^6.2.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   },
