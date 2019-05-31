@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Resource Site</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./index.css">
+
+</head>
+
+<body>
+
+
+    <div class="sidenav">
+
+        <div class="container">
+            <div class="row">
+                <div class="col" id="userSpecifics">
+                    <div><span class="userimageOption">&nbsp;</span></div>
+                    <img id="userimage" class="img-fluid rounded-circle" src="./resources/4.jpg" alt="" width="140px" height="140px">
+                    <p class="sidebar_name"><%= user.name %></p>
+                    <p class="sidebar_portfolio">Chief designer</p>
+                    <a class="updatePortfolio">Update Portfolio</a>
+                </div>
+                <div class="col sidenavitem active">
+                    <img src="./resources/search (2).svg" alt="" width="30px" height="30x">
+                    <p>Dashboard</p>
+                </div><br>
+                <div class="col sidenavitem">
+                    <img src="./resources/password.svg" alt="" width="30px" height="30px">
+                    <p>Resources</p>
+                </div><br>
+                <div class="col sidenavitem">
+                    <img src="./resources/share.svg" alt="" width="30px" height="30px">
+                    <p>TESTS AND TASKS</p>
+                </div><br>
+                <div class="col sidenavitem">
+                    <img src="./resources/restore.svg" alt="" width="30px" height="30px">
+                    <p>SETTINGS</p>
+                </div><br>
+                <div class="col sidenavitem">
+                    <img src="./resources/restore.svg" alt="" width="30px" height="30px">
+                    <p>COMING SOON</p>
+                </div><br>
+                <!-- This is to fill out the empty space in the side nav -->
+                <div class="col emptySidenavitem">
+                    <div><br>&nbsp;&nbsp;.&nbsp;&nbsp;<br></div>
+                </div><br>
+                <div class="col emptySidenavitem">
+                    <div><br>&nbsp;&nbsp;.&nbsp;&nbsp;<br></div>
+                </div><br>
+                <div class="col emptySidenavitem">
+                    <div><br>&nbsp;&nbsp;.&nbsp;&nbsp;<br></div>
+                </div><br>
+                
+                <!-- This is to fill out the empty space in the side nav -->
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="topnav">
+
+            
+
+            <div class="tabs_search">
+                <span><a><img src="./resources/search.svg" width="20px" alt="Search"></a></span>
+            </div>
+
+            <div class="tabs_nav">
+              <span><a href="#home">Blog</a></span>
+              <span> <a href="#about">Questions</a></span>
+              <span> <a href="#contact">Company</a></span>
+              <span> <a href="#contact">Contact</a></span>
+            </div>
+
+            <span class="tabs">
+                    <span><a><img src="./resources/cloud-lightning.svg" width="20px" height="20px" alt=""></a></span>
+                    <span><a><img src="./resources/calendar.svg" width="20px" height="20px" alt=""></a></span>
+                    <span><a><img src="./resources/box.svg" width="20px" height="20px" alt=""></a></span>
+            </span>
+
+        </div>
+
+        <div class="main_content">
+            <section class="main-content">
+                <%- content %>
+            </section>
+        </div>
+
+
+    </div>
+
+    <script src="./js/bootstrap.min.js"></script>
+</body>
+
+</html>
